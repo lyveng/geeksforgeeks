@@ -12,4 +12,13 @@ public class BinaryTreeNode {
   public boolean isLeafNode() {
     return left == null && right == null;
   }
+
+  public static void printInOrder(BinaryTreeNode node) {
+    if (node == null)
+      return;
+    printInOrder(node.left);
+    System.out.print(node.data);
+    System.out.print(" ");
+    printInOrder(node.right);
+  }
 }
