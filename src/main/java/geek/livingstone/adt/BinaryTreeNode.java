@@ -1,6 +1,11 @@
 package geek.livingstone.adt;
 
 public class BinaryTreeNode {
+  @Override
+  public String toString() {
+    return "" + data;
+  }
+
   public int data;
   public BinaryTreeNode left = null;
   public BinaryTreeNode right = null;
