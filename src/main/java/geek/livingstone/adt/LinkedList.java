@@ -1,6 +1,6 @@
 package geek.livingstone.adt;
 
-public class LinkedList<T> {
+public class LinkedList<T extends Comparable> {
   private LinkedListNode<T> head;
   
   public void push(T data) {

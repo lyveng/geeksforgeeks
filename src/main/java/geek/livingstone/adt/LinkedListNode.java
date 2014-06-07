@@ -1,6 +1,6 @@
 package geek.livingstone.adt;
 
-public class LinkedListNode<T> {
+public class LinkedListNode<T extends Comparable> {
   private T data;
   private LinkedListNode<T> next;
 
