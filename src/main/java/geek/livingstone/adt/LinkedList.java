@@ -17,6 +17,10 @@ public class LinkedList<T> {
     return head;
   }
 
+  public void setHead(LinkedListNode<T> head) {
+    this.head = head;
+  }
+
   public void reverse() {
     LinkedListNode<T> prev = null, cur = head, next;
     while (cur != null) {
