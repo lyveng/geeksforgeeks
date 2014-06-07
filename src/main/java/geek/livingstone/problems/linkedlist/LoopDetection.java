@@ -3,10 +3,10 @@ package geek.livingstone.problems.linkedlist;
 import geek.livingstone.adt.LinkedList;
 import geek.livingstone.adt.LinkedListNode;
 
-public class LoopDetection<T> {
+public class LoopDetection {
   private boolean hasLoop;
 
-  public LoopDetection(LinkedList<T> list) {
+  public <T extends Comparable> LoopDetection(LinkedList<T> list) {
     LinkedListNode<T> slow=list.getHead(), fast=list.getHead().getNext();
     while (fast != null) {
       if (slow == fast) {
@@ -31,12 +31,12 @@ public class LoopDetection<T> {
     list.push(15);
     list.push(85);
 
-    LoopDetection<Integer> loop = new LoopDetection<Integer>(list);
+    LoopDetection loop = new LoopDetection(list);
     System.out.println(loop.hasLoop());
 
     // Add a loop
     list.getHead().getNext().getNext().getNext().setNext(list.getHead());
-    loop = new LoopDetection<Integer>(list);
+    loop = new LoopDetection(list);
     System.out.println(loop.hasLoop());
   }
 }
