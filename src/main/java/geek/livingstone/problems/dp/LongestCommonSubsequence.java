@@ -1,4 +1,4 @@
-package geek.livingstone.problems.linkedlist;
+package geek.livingstone.problems.dp;
 
 import java.util.Arrays;
 
