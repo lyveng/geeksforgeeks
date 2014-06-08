@@ -45,4 +45,15 @@ public class LinkedList<T extends Comparable> {
     sb.append(']');
     return sb.toString();
   }
+
+  public int getLength() {
+    int count = 0;
+    LinkedListNode<T> cur = getHead();
+    while (cur != null)
+    {
+      count++;
+      cur = cur.getNext();
+    }
+    return count;
+  }
 }

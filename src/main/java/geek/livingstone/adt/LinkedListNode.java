@@ -29,4 +29,15 @@ public class LinkedListNode<T extends Comparable> {
   public String toString() {
     return data.toString();
   }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    // TODO Auto-generated method stub
+    return super.equals(obj);
+  }
 }
