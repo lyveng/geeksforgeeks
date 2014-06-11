@@ -9,7 +9,7 @@ import geek.livingstone.adt.LinkedListNode;
  * @author emmanuel
  * 
  */
-public class MergeSorted {
+public class MergeSortedLists {
 
   public static <T extends Comparable<T>> LinkedList<T> mergeSorted(LinkedList<T> a, LinkedList<T> b) {
     LinkedListNode<T> head = mergeUtil(a.getHead(), b.getHead());
