@@ -46,14 +46,14 @@ public class MinDistBetTwoNum {
   }
 
   public static int findMinDistSimple(int[] A, int x, int y) {
-    int cur = -1, min = Integer.MAX_VALUE;
+    int prev = -1, min = Integer.MAX_VALUE;
     for (int i = 0; i < A.length; i++) {
       if (A[i] == x || A[i] == y) {
-        if (cur != -1 && A[cur] != A[i]) {
-          if (i - cur < min)
-            min = i - cur;
+        if (prev != -1 && A[prev] != A[i]) {
+          if (i - prev < min)
+            min = i - prev;
         }
-        cur = i;
+        prev = i;
       }
     }
     return min;
