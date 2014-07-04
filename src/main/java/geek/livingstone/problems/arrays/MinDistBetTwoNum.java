@@ -45,11 +45,29 @@ public class MinDistBetTwoNum {
     return minDist;
   }
 
+  public static int findMinDistSimple(int[] A, int x, int y) {
+    int prev = -1, min = Integer.MAX_VALUE;
+    for (int i = 0; i < A.length; i++) {
+      if (A[i] == x || A[i] == y) {
+        if (prev != -1 && A[prev] != A[i]) {
+          if (i - prev < min)
+            min = i - prev;
+        }
+        prev = i;
+      }
+    }
+    return min;
+  }
+
   public static void main(String[] args) {
     System.out.println(findMinDist(new int[] {1, 2}, 1, 2));
     System.out.println(findMinDist(new int[] {3, 4, 5}, 3, 5));
     System.out.println(findMinDist(new int[] {3, 5, 4, 2, 6, 5, 6, 6, 5, 4, 8, 3}, 3, 6));
     System.out.println(findMinDist(new int[] {2, 5, 3, 5, 4, 4, 2, 3}, 3, 2));
+    System.out.println(findMinDistSimple(new int[] {1, 2}, 1, 2));
+    System.out.println(findMinDistSimple(new int[] {3, 4, 5}, 3, 5));
+    System.out.println(findMinDistSimple(new int[] {3, 5, 4, 2, 6, 5, 6, 6, 5, 4, 8, 3}, 3, 6));
+    System.out.println(findMinDistSimple(new int[] {2, 5, 3, 5, 4, 4, 2, 3}, 3, 2));
   }
 
 }
