@@ -30,6 +30,8 @@ public class CustomTreeProblem {
       }
       if (nodes[bIndex] == null)
         nodes[bIndex] = new TreeNode(b);
+      if (heads.contains(bIndex))
+        heads.remove(bIndex);
       nodes[aIndex].addChild(nodes[bIndex]);
     }
     for (int i : heads) {
@@ -41,7 +43,7 @@ public class CustomTreeProblem {
   public static void main(String[] args) {
     processLinks(new String[] {"a b", "b c", "b d", "a e"});
     System.out.println("\n");
-    processLinks(new String[] {"a b", "a g", "b c", "c d", "d e", "c f", "z y", "y x", "x w"});
+    processLinks(new String[] {"a b", "a g", "b c", "c d", "d e", "c f", "y x", "z y", "x w"});
   }
 
   static class TreeNode {
