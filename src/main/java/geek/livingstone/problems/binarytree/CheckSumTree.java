@@ -46,6 +46,21 @@ public class CheckSumTree {
     }
   }
 
+  public boolean isSumTree2(BinaryTreeNode root) {
+    if (root == null)
+      return true;
+    if (!isSumTree(root.left))
+      return false;
+    if (!isSumTree(root.right))
+      return false;
+    int leftSum = 0, rightSum = 0;
+    if (root.left!=null)
+      leftSum = root.left.data * 2;
+    if (root.right != null)
+      rightSum = root.right.data * 2;
+    return root.data == (leftSum + rightSum);
+  }
+
   public static void main(String[] args) {
     BinaryTreeNode root = new BinaryTreeNode(26);
     root.left = new BinaryTreeNode(10);
@@ -56,5 +71,6 @@ public class CheckSumTree {
 
     CheckSumTree obj = new CheckSumTree();
     System.out.println(obj.isSumTree(root));
+    System.out.println(obj.isSumTree2(root));
   }
 }
