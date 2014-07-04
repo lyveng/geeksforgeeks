@@ -56,4 +56,11 @@ public class LinkedList<T extends Comparable> {
     }
     return count;
   }
+
+  public LinkedListNode<T> getLast() {
+    LinkedListNode<T> last = head;
+    while (last != null && last.getNext() != null)
+      last = last.getNext();
+    return last;
+  }
 }
