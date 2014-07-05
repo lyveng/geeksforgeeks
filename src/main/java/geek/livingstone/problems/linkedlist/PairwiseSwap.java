@@ -25,6 +25,19 @@ public class PairwiseSwap {
     list.setHead(swapUtil(list.getHead()));
   }
 
+  public static <T extends Comparable<T>> LinkedListNode<T> swapUtil2(LinkedListNode<T> node) {
+    if (node == null || node.getNext() == null)
+      return node;
+    LinkedListNode<T> next = node.getNext().getNext(), a = node, b = node.getNext();
+    b.setNext(a);
+    a.setNext(swapUtil2(next));
+    return b;
+  }
+
+  public static <T extends Comparable<T>> void pairwiseSwap2(LinkedList<T> list) {
+    list.setHead(swapUtil2(list.getHead()));
+  }
+
   public static void main(String[] args) {
     LinkedList<Integer> a = new LinkedList<>();
     a.push(5);
@@ -32,6 +45,8 @@ public class PairwiseSwap {
     a.push(3);
     a.push(2);
     a.push(1);
+    System.out.println(a);
+    pairwiseSwap(a);
     System.out.println(a);
     pairwiseSwap(a);
     System.out.println(a);
