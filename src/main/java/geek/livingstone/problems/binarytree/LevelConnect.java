@@ -23,69 +23,29 @@ public class LevelConnect {
    * @param root
    */
   public static void connect(Node root) {
-    if (root == null)
-      return;
-    Node parent = root;
-    Node curLevel = root.left != null ? root.left : root.right;
-    boolean isLeftChild = root.left != null;
-    while (curLevel != null) {
-      Node curNode = curLevel;
-      while (curNode != null) {
-        /*System.out.println(String.format("CurNode : %d, Parent : %d, isLeftChild : %s",
-            curNode.data, parent.data, isLeftChild));*/
-        RetValue ret = getNextRight(curNode, parent, isLeftChild);
-        if (ret == null)
-          break;
-        curNode.nextRight = ret.node;
-        curNode = curNode.nextRight;
-        parent = ret.parent;
-        isLeftChild = ret.isLeftChild;
-      }
-      try {
-        RetValue ret = getNextLevel(curLevel);
-        curLevel = ret.node;
-        parent = ret.parent;
-        isLeftChild = ret.isLeftChild;
-      } catch (NoNextLevelException e) {
-        break;
+    Node curLevel, nextLevelFirstNode=root, prevNode;
+    while (nextLevelFirstNode != null) {
+      curLevel = nextLevelFirstNode;
+      nextLevelFirstNode = null;
+      prevNode = null;
+      while (curLevel != null) {
+        if (curLevel.left != null) {
+          if (prevNode != null)
+            prevNode.nextRight = curLevel.left;
+          else
+            nextLevelFirstNode = curLevel.left;
+          prevNode = curLevel.left;
+        }
+        if (curLevel.right != null) {
+          if (prevNode != null)
+            prevNode.nextRight = curLevel.right;
+          else
+            nextLevelFirstNode = curLevel.right;
+          prevNode = curLevel.right;
+        }
+        curLevel = curLevel.nextRight;
       }
     }
-  }
-
-  /**
-   * Gets the next right node in the current level for the given curNode.
-   * 
-   * @param curNode
-   * @param parent
-   * @param isLeftChild
-   * @return
-   */
-  private static RetValue getNextRight(Node curNode, Node parent, boolean isLeftChild) {
-    if (isLeftChild && parent.right != null)
-      return new RetValue(parent.right, parent, false);
-    parent = parent.nextRight;
-    while (parent != null) {
-      if (parent.left != null)
-        return new RetValue(parent.left, parent, true);
-      else if (parent.right != null)
-        return new RetValue(parent.right, parent, false);
-      else
-        parent = parent.nextRight;
-    }
-    return null;
-  }
-
-  private static class RetValue {
-    Node node;
-    Node parent;
-    boolean isLeftChild;
-
-    RetValue(Node nextRight, Node parent, boolean isLeftChild) {
-      this.node = nextRight;
-      this.parent = parent;
-      this.isLeftChild = isLeftChild;
-    }
-
   }
 
   /**
@@ -94,41 +54,22 @@ public class LevelConnect {
    * @param node
    */
   public static void print(Node node) {
-    Object nullObj = null;
-    while (node != null) {
-      Node curNode = node;
-      while (curNode != null) {
-        System.out.print(curNode.data);
-        System.out.print(" --> ");
-        curNode = curNode.nextRight;
+    Node curLevel, nextLevel=node;
+    while (nextLevel!=null) {
+      curLevel = nextLevel;
+      nextLevel = null;
+      while (curLevel != null) {
+        System.out.print(curLevel.data + " --> ");
+        if (nextLevel == null) {
+          if (curLevel.left != null)
+            nextLevel = curLevel.left;
+          else if (curLevel.right != null)
+            nextLevel = curLevel.right;
+        }
+        curLevel = curLevel.nextRight;
       }
-      System.out.println(nullObj);
-      try {
-        node = getNextLevel(node).node;
-      } catch (NoNextLevelException e) {
-        break;
-      }
+      System.out.println("null");
     }
-  }
-
-  /**
-   * Gets the starting node in the next level. The node.nextRight needs to be filled in for the
-   * current level for this to work.
-   * 
-   * @param node
-   * @return
-   * @throws NoNextLevelException
-   */
-  public static RetValue getNextLevel(Node node) throws NoNextLevelException {
-    while (node != null) {
-      if (node.left != null)
-        return new RetValue(node.left, node, true);
-      else if (node.right != null)
-        return new RetValue(node.right, node, false);
-      else
-        node = node.nextRight;
-    }
-    throw new NoNextLevelException();
   }
 
   public static void main(String[] args) {
@@ -166,9 +107,5 @@ public class LevelConnect {
     public Node(int data) {
       this.data = data;
     }
-  }
-
-  private static class NoNextLevelException extends Exception {
-    private static final long serialVersionUID = 2227569230160690616L;
   }
 }
