@@ -1,32 +1,28 @@
 package geek.livingstone.problems.dp;
 
-import java.util.Arrays;
-
+/**
+ * Full problem at http://www.geeksforgeeks.org/dynamic-programming-set-9-binomial-coefficient/
+ * 
+ * @author emmanuel
+ * 
+ */
 public class BinomialCoefficient {
-  
-  private int[][] B;
-  public BinomialCoefficient(int n, int k) {
-    B = new int[n+1][k+1];
-    for (int i=0;i<=n;i++) {
-      for (int j=0;j<=k;j++) {
-        if (i == 0 && j==0)
-          B[i][j] = 0;
-        else if (i==0)
-          B[i][j] = 0;
-        else if (j==0 || i==j)
-          B[i][j] = 1;
-        else {
-          B[i][j] = B[i-1][j-1] + B[i-1][j];
-        }
+  // C(n, k) = C(n-1, k-1) + C(n-1, k)
+  public static void binomialCoefficient(int n, int k) {
+    int[][] b = new int[n + 1][k + 1];
+    for (int i = 0; i <= n; i++) {
+      for (int j = 0; j <= Math.min(k, i); j++) {
+        if (j == 0 || j == i)
+          b[i][j] = 1;
+        else
+          b[i][j] = b[i - 1][j - 1] + b[i - 1][j];
       }
     }
-    for (int i=0;i<=n;i++)
-      System.out.println(Arrays.toString(B[i]));
-    System.out.println("Binomial Coefficient is " + B[n][k]);
+    System.out.println(b[n][k]);
   }
 
   public static void main(String[] args) {
-    new BinomialCoefficient(4, 2);
-    new BinomialCoefficient(5, 2);
+    binomialCoefficient(4, 2);
+    binomialCoefficient(5, 2);
   }
 }
