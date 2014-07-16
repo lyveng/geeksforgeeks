@@ -1,42 +1,26 @@
 package geek.livingstone.problems.dp;
 
-import java.util.Arrays;
 
 public class MatrixChainOrder {
-  private int[][] minCost;
-
-  public MatrixChainOrder(int[] mat) {
-    minCost = new int[mat.length][mat.length];
-    for (int i=1;i<mat.length;i++) {
-      for (int j=i;j<mat.length;j++) {
-        getCost(mat, i, j);
+  public static void minMultiplications(int[] p) {
+    int[][] m = new int[p.length][p.length];
+    int n = p.length;
+    for (int L=2;L<n;L++) {
+      for (int i=1;i<n-L+1;i++) {
+        int j = i + L - 1;
+        m[i][j] = Integer.MAX_VALUE;
+        for (int k=i;k<j;k++) {
+          m[i][j] = Math.min(m[i][j], m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j]);
+        }
       }
     }
-    for (int i=0;i<mat.length;i++)
-      System.out.println(Arrays.toString(minCost[i]));
-    System.out.println("Minimum no of operations is " + getCost(mat, 1, mat.length-1));
-  }
-
-  private int getCost(int[] mat, int i, int j) {
-    assert i<=j;
-    if (i == j)
-      return 0;
-    if (minCost[i][j] != 0)
-      return minCost[i][j];
-    minCost[i][j] = Integer.MAX_VALUE;
-    for (int k=i;k<j;k++) {
-      int minCostIJK = getCost(mat,i,k) + getCost(mat,k+1,j) + mat[i-1]*mat[k]*mat[j];
-      if (minCostIJK < getCost(mat,i,j))
-        minCost[i][j] = minCostIJK;
-    }
-    assert minCost[i][j] != Integer.MAX_VALUE;
-    return minCost[i][j];
+    System.out.println(m[1][n-1]);
   }
 
   public static void main(String[] args) {
-    new MatrixChainOrder(new int[]{40,20,30,10,30});
-    new MatrixChainOrder(new int[]{10,20,30,40,30});
-    new MatrixChainOrder(new int[]{10,20,30});
+    minMultiplications(new int[]{40,20,30,10,30});
+    minMultiplications(new int[]{10,20,30,40,30});
+    minMultiplications(new int[]{10,20,30});
   }
 
 }
