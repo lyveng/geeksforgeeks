@@ -1,5 +1,8 @@
 package geek.livingstone.adt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Full problem at http://www.geeksforgeeks.org/ternary-search-tree/
  * 
@@ -27,6 +30,14 @@ public class TernarySearchTree {
       root.traverse(new StringBuilder());
   }
 
+  public List<String> findStringsWithPrefix(String prefix) {
+    if (root == null)
+      return new ArrayList<>();
+    List<String> strings = new ArrayList<>();
+    root.findStringsWithPrefix(prefix, 0, strings);
+    return strings;
+  }
+
   class Node {
     char val;
     Node left;
@@ -41,6 +52,37 @@ public class TernarySearchTree {
         isLeaf = true;
       else
         down = new Node(value, index + 1);
+    }
+
+    private void findStrings(List<String> strings, StringBuilder sb) {
+      if (isLeaf) {
+        sb.append(this.val);
+        strings.add(sb.toString());
+        sb.deleteCharAt(sb.length()-1);
+      }
+      if (down != null) {
+        sb.append(this.val);
+        down.findStrings(strings, sb);
+        sb.deleteCharAt(sb.length()-1);
+      }
+      if (left != null)
+        left.findStrings(strings, sb);
+      if (right != null)
+        right.findStrings(strings, sb);
+    }
+
+    private void findStringsWithPrefix(String prefix, int index, List<String> strings) {
+      assert index < prefix.length();
+      if (index == prefix.length()) {
+        findStrings(strings, new StringBuilder(prefix));
+        return;
+      }
+      if (prefix.charAt(index) == val && down != null)
+        down.findStringsWithPrefix(prefix, index + 1, strings);
+      else if (prefix.charAt(index) < val && left != null)
+        left.findStringsWithPrefix(prefix, index, strings);
+      else if (prefix.charAt(index) > val && right != null)
+        right.findStringsWithPrefix(prefix, index, strings);
     }
 
     void insert(String value, int index) {
@@ -70,7 +112,7 @@ public class TernarySearchTree {
     boolean find(String value, int index) {
       assert index < value.length();
       if (index == value.length() - 1)
-        return isLeaf;
+        return value.charAt(index) == val && isLeaf;
       if (value.charAt(index) == val)
         if (down == null)
           return false;
@@ -111,11 +153,14 @@ public class TernarySearchTree {
     System.out.println("Following is the traversal of ternary search tree");
     tst.traverse();
 
-    System.out.println("\nFollowing are search results for cats, bu and cat respectively");
-    System.out.println(tst.search("cats"));
+    System.out.println("\nFollowing are search results for catd, bu, cat and sads respectively");
+    System.out.println(tst.search("catd"));
     System.out.println(tst.search("bu"));
     System.out.println(tst.search("cat"));
     System.out.println(tst.search("sads"));
+
+    List<String> strings = tst.findStringsWithPrefix("ca");
+    System.out.println("\nStrings with prefix ca are " + strings);
   }
 
 }
