@@ -1,25 +1,24 @@
 package geek.livingstone.problems.dp;
 
+/**
+ * Full problem at http://www.geeksforgeeks.org/dynamic-programming-set-13-cutting-a-rod/
+ * 
+ * @author emmanuel
+ * 
+ */
 public class CutRod {
-  public CutRod(int[] price) {
-    // maxValues[i] stores the maximum value that can be generated from a rod of length i.
-    int n = price.length;
-    int[] maxValues = new int[n+1];
-    maxValues[0] = 0;
-    for (int l=1;l<=n;l++) {
-      maxValues[l] = Integer.MIN_VALUE;
-      for (int i=1;i<=l;i++) {
-        int val = price[i-1] + maxValues[l-i];
-        if (val > maxValues[l])
-          maxValues[l] = val;
-      }
+  public static void cutRod(int[] prices) {
+    int[] maxPrice = prices.clone();
+    for (int i = 1; i < maxPrice.length; i++) {
+      for (int j = 0; j < i; j++)
+        maxPrice[i] = Math.max(maxPrice[i], maxPrice[j] + maxPrice[i - j - 1]);
     }
-    System.out.println("Maximum value will be " + maxValues[n]);
+    System.out.println(maxPrice[prices.length - 1]);
   }
 
   public static void main(String[] args) {
-    new CutRod(new int[]{1,5,8,9,10,17,17,20});
-    new CutRod(new int[]{3,5,8,9,10,17,17,20});
+    cutRod(new int[] {1, 5, 8, 9, 10, 17, 17, 20});
+    cutRod(new int[] {3, 5, 8, 9, 10, 17, 17, 20});
   }
 
 }
