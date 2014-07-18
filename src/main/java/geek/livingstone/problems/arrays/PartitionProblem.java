@@ -12,34 +12,29 @@ public class PartitionProblem {
     for (int i = 0; i < arr.length; i++) {
       totalSum += arr[i];
     }
-    if (totalSum % 2 != 0) {
-      System.out.println("No such subset exists.");
+    if ((totalSum & 1) == 1) {
+      System.out.println("Subset not available");
       return;
     }
-    int targetSum = totalSum / 2;
-    // isSubSetAvailable[n][sum] is true iff a subset of A[0...n] exists with sum=sum
-    boolean[][] isSubSetAvailable = new boolean[arr.length + 1][targetSum + 1];
-    isSubSetAvailable[0][0] = true;
-    for (int i = 0; i < isSubSetAvailable.length; i++) {
-      isSubSetAvailable[i][0] = true;
+    int targetSum = totalSum >> 1;
+    boolean[][] sumExists = new boolean[targetSum + 1][arr.length];
+    for (int i = 0; i < arr.length; i++) {
+      sumExists[0][i] = true;
     }
-    for (int i = 1; i < isSubSetAvailable.length; i++) {
-      for (int j = 1; j < isSubSetAvailable[i].length; j++) {
-        if (j - arr[i-1] >= 0)
-          isSubSetAvailable[i][j] = isSubSetAvailable[i][j] || isSubSetAvailable[i][j - arr[i-1]];
-        if (i - 1 >= 0)
-          isSubSetAvailable[i][j] = isSubSetAvailable[i][j] || isSubSetAvailable[i - 1][j];
+    for (int sum = 1; sum <= targetSum; sum++) {
+      for (int i = 0; i < arr.length; i++) {
+        if (arr[i] <= sum && i - 1 >= 0)
+          sumExists[sum][i] = sumExists[sum][i - 1] || sumExists[sum - arr[i]][i - 1];
       }
     }
-    if (isSubSetAvailable[arr.length][targetSum])
-      System.out.println("Subset available");
-    else
-      System.out.println("No such subset exists.");
+    System.out.println(sumExists[targetSum][arr.length - 1]);
   }
 
   public static void main(String[] args) {
     findPartition(new int[] {1, 5, 11, 5});
     findPartition(new int[] {1, 5, 3});
+    findPartition(new int[] {3, 1, 1, 2, 2, 1});
+    findPartition(new int[] {9, 1, 1, 2, 2, 1});
   }
 
 }
